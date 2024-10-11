@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet" />
+    <title>Baking Homepage</title>
+</head>
+<body>
+    <div id = "wrap">
+        <div id = "top">
+            <header>김지영(jykim)님 | 로그아웃 | 정보수정</header>
+            <div class = "logo"><images src = "images/logo.png" alt="로고 이미지"></div>
+            <div class = "menu">
+                <nav>
+                    <ul class = "menu_container"> <!--현재 드롭다운 안됨-->
+                        <li><a href = "#">Home</a></li>
+                        <li class = "dropdown" style="z-index: 2;">
+                            <a href = "#">클래스</a>
+                            <ul class = "submenu">
+                                <li><a href = "">쿠키 클래스</a></li>
+                                <li><a href = "">빵 클래스</a></li>
+                                <li><a href = "">마카롱 클래스</a></li>
+
+                            </ul>
+                        </li>
+                        <li><a href = "#">작품갤러리</a></li>
+                        <li><a href = "#">게시판</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class = "img1">
+            <images src = "images/main_bg.png" alt = "클래스 안내 이미지">
+        </div>
+        <div class = "blank"></div>
+        <div class = "main_body">
+            <div class = "left-side">
+                <div class = "left_intro">
+                    <div class = "intro">The 베이킹</div>
+                    <p>안녕하세요. 쿠키와 빵 만들기 정보를 공유하고 소통하는 공간입니다.</p>
+                    <form action="" method="get">
+                        <input type="text" class = "searchbox">
+                        <input type ="submit" value="검색">
+                    </form>
+
+                    <div class = "category">
+                        <div class = "category_title">베이킹/요리</div>
+                        <p>쿠키 만들기</p>
+                        <p>빵 만들기</p>
+                        <p>마카롱 만들기</p>
+                    </div>
+                    <div class = "recent_replay">
+                        <p id = "r_title">최근 댓글</p>
+                        <p>안녕하세요.</p>
+                        <p>안녕하세요.</p>
+                        <p>안녕하세요.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class = "middle_side">
+                <div>
+                    <div class = "m_title">알림</div>
+                    <hr style="margin-bottom: 20px;">
+                    <p class = "m_contents">쿠킹 클래스 연기합니다.</p>
+                    <span class="m_date">09.30</span>
+                    <p class = "m_contents">쿠킹 클래스 연기합니다.</p>
+                    <span class="m_date">09.30</span>
+                    <p class = "m_contents">쿠킹 클래스 연기합니다.</p>
+                    <span class="m_date">09.30</span>
+                    <p class = "m_contents">쿠킹 클래스 연기합니다.</p>
+                    <span class="m_date">09.30</span>
+                    <p class = "m_contents">쿠킹 클래스 연기합니다.</p>
+                    <span class="m_date">09.30</span>
+                </div>
+                <div style = "clear: both;"></div>
+                <div style = "margin-top: 50px; ">
+                    <div class = "m_title">게시판</div>
+                    <hr style="margin-bottom: 20px;">
+                    <p class = "m_contents">안녕하세요. 반갑습니다.</p>
+                    <span class="m_date">09.30</span>
+                    <p class = "m_contents">안녕하세요. 반갑습니다.</p>
+                    <span class="m_date">09.30</span>
+                    <p class = "m_contents">안녕하세요. 반갑습니다.</p>
+                    <span class="m_date">09.30</span>
+                    <p class = "m_contents">안녕하세요. 반갑습니다.</p>
+                    <span class="m_date">09.30</span>
+                    <p class = "m_contents">안녕하세요. 반갑습니다.</p>
+                    <span class="m_date">09.30</span>
+                </div>
+                <div style = "clear: both;"></div>
+            </div>
+
+            <div class = "right_side">
+                <div class = "m_title">제빵 클래스</div>
+                <hr style="margin-bottom: 20px;">
+                <div style = "display: flex;">
+                    <div class = "bread_area" style="float: left;">
+                        <div class = "b_img">
+                            <images src = "images/bread1.png" alt = "더너트 만들기">
+                            <p>도너트 만들기[3]</p>
+                            <p>21.09.30</p>
+                        </div>
+                    </div>
+                    <div class = "bread_area" style="float: right;">
+                        <div class = "b_img">
+                            <images src = "images/bread2.png" alt = "더너트 만들기">
+                            <p>도너트 만들기[3]</p>
+                            <p>21.09.30</p>
+                        </div>
+                    </div>
+                </div>
+                <div style = "display: flex;">
+                    <div class = "bread_area" style="float: left;">
+                        <div class = "b_img">
+                            <images src = "images/bread3.png" alt = "더너트 만들기">
+                            <p>도너트 만들기[3]</p>
+                            <p>21.09.30</p>
+                        </div>
+                    </div>
+                    <div class = "bread_area" style="float: right;">
+                        <div class = "b_img">
+                            <images src = "images/bread4.png" alt = "더너트 만들기">
+                            <p>도너트 만들기[3]</p>
+                            <p>21.09.30</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <footer>
+            <div class = "f_intro">
+                <span>The 베이킹 소개</span>
+                <span>개인정보처리방침</span>
+                <span>저작권 정보</span>
+                <span>이용 안내</span>
+            </div>
+        <div id = "sitemap">
+            
+                
+           
+            <div class = "items">
+                <h3>문의전화</h3>
+                <ul>
+                    <li style = "font-size: 20px; font-weight: bold;">123-1234</li>
+                    <li>10:00 - 18:00(Lunch 12:00 - 13:00)</li>
+                </ul>
+            </div>
+            <div class = "items">
+                <h3>The 베이킹</h3>
+                <ul>
+                    <li>주소 : 경기도 용인시 기흥구 동백대로 123</li>
+                    <li>전화 : 031-123-1234</li>
+                    <li>팩스 : 031-123-1234</li>
+                    <li>이메일 : 123-12-12345</li>
+                </ul>
+            </div>
+            <div class = "items">
+                <h3>입금 정보</h3>
+                <ul>
+                    <li>농협 123-123-123456</li>
+                    <li>The 베이킹</li>
+                </ul>
+            </div>
+           
+        </div> <!--sitemap-->
+    </footer>
+</body>
+</html>
