@@ -89,14 +89,20 @@ header{
 }
 
 .img1{
-    position: relative;
-    z-index: 1;
-    
+    height: 60px;
+    background-image: url("../images/main_bg.png");
+    background-repeat: no-repeat;
+    background-size: 1400px 100%;
+    background-position: top center;
+    text-align: center;
+    padding: 145px 0 0 470px;
 }
+
 .img1 > img{
-    width:1300px;
-    z-index: 1;
+    bottom: 0;
+    right:0;
 }
+
 .img2 {
     position: relative;
     width: 645px;
@@ -110,7 +116,7 @@ header{
 }
 
 .blank{
-    width:1500px;
+    width:1300px;
     height:50px;
 }
 
@@ -152,10 +158,26 @@ header{
     line-height: 1.5;
 }
 
+.f_search{
+    width:180px;
+    height:30px;
+    position : relative;
+    padding: 0 5px;
+}
+
+.s_box{
+    position: absolute;
+    top:0;
+    right: 12px;
+
+}
+
 .searchbox{
     width:120px;
-    height:18px;
-    float: left;
+    height:19px;
+    position: absolute;
+    top:0;
+    left: 5px;
 }
 
 .category{
@@ -221,6 +243,7 @@ header{
 .m_contents{
     float: left;
     margin: 0;
+    margin-left: 8px;
     width:200px;
     text-align: left;
     line-height: 1.5;
