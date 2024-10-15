@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel = "stylesheet" href = "css/style1.css">
+    <script type = "text/javascript" src = "js/script1.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <div class = "blank">가위바위보 게임을 시작합니다.</div>
+    <div class = "out">
+        <div class = "game_area">
+            <div class = "com_area">
+                <img src = "images/rocksissorpaper.png" alt = "컴퓨터 가위바위보 이미지" id = "com">
+                <p>Computer</p>
+                <div>
+
+                </div>
+            </div>
+            <div class = "vs_area">VS</div>
+            <div class = "user_area">
+                <img src = "images/rocksissorpaper.png" alt = "유저 가위바위보 이미지" id = "user">
+                <p>User</p>
+                <div>
+                    <h3>가위바위보 선택하기</h3>
+                    <button onclick = "selectSissor()">가위</button>
+                    <button onclick = "selectRock()">바위</button>
+                    <button onclick="selectPaper()">보</button>
+                </div>
+            
+            </div>
+        </div>
+    </div>
+    <div class="out">
+        <div class = "result_area">
+            <button onclick="reset()">초기화</button>
+            <p id = "explain">가위바위보 중에 선택하시면 게임을 시작하실 수 있습니다!</p>
+            <p><span id = "result"></span></p>
+            <p id = "cnt"></p>
+            <p id = "winnig"></p>
+        </div>
+    </div>
+    
+</body>
+</html>
