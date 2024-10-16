@@ -41,27 +41,30 @@ form > button{
 ul{
     width:100%;
     padding: 0;
-    margin-left: 0;
+    margin: 0;
 }
 
 ul > li{
     list-style-type: none;
-    margin:0;
-    height: 20px;
+    height: 40px;
+    padding-left: 10px;;
     text-align: left;
-    background-color: #eee;
+    align-content: center;
+    background-color: #bebcbc;
 }
 ul > li:nth-child(odd){
-    background-color: #bebcbc;
+    background-color: #eee;
 }
 
 .close{
-    width:20px;
-    height:20px;
+    width:25px;
+    height:25px;
     align-content: center;
+    text-align: center;
+    float: right;
 }
 
-.close :hover{
+.close:hover{
     background-color:  rgb(86, 86, 162);
     color:white;
 }

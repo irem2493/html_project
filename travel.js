@@ -9,8 +9,8 @@ function addItemList(){
         itemList.push(item);
         document.querySelector("#item").value = "";
         document.querySelector("#item").focus();
-        showItemList();
     }
+    showItemList();
 }
 
 function showItemList(){
@@ -21,4 +21,15 @@ function showItemList(){
     list += "</ul>";
     const $itemList = document.getElementById("itemList");
     $itemList.innerHTML = list;
+
+    let closeBnt = document.querySelectorAll(".close");
+    for(let i = 0; i < closeBnt.length; i++){
+        closeBnt[i].addEventListener("click",removeItemList);
+    }
+}
+
+function removeItemList(){
+    let id = this.getAttribute("id");
+    itemList.splice(id,1);
+    showItemList();
 }
