@@ -67,7 +67,7 @@ button{
 
 button:hover{
     background-color: rgb(78, 250, 164);
-    border: 1px solid rgb(1, 248, 124);;
+    border: 1px solid rgb(1, 248, 124);
 }
 
 #result{
@@ -81,4 +81,19 @@ button:hover{
     align-content: center;
     background-color: rgb(190, 252, 221);
     display: none;
+}
+
+#result_lotto_bnt:hover{
+    background-color: rgb(78, 250, 164);
+    border: 1px solid rgb(1, 248, 124);
+}
+
+#lotto_result{
+    display: none;
+}
+
+
+#lotto_result > ul > li{
+    
+    width : 150px;
 }
