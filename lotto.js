@@ -72,21 +72,32 @@ resultLottoBnt.addEventListener("click", resultLotto);
 
 function resultLotto(){
     let lottoNums = Array.from(lottoNumbers);
-console.log(lottoNums);
-console.log(lottoAutoNumbers);
-
     let find, bnous;
     find = bnous = 0;
-    console.log(lottoNums.length);
-    console.log(lottoAutoNumbers.length);
     if(lottoNums.length > 0){
+
+        //오름차순 정렬
+        for(let i = 0; i < lottoNums.length-1; i++){
+            for(let j = i; j < lottoNums.length; j++){
+                if(lottoNums[j] < lottoNums[i]){
+                    let tmp = lottoNums[j];
+                    lottoNums[j] = lottoNums[i];
+                    lottoNums[i] = tmp;
+                }
+            }
+        }
         for(let i = 0; i < lottoAutoNumbers.length; i++){
             for(let j = 0; j < lottoNums.length-1; j++){
-                if(lottoNums[i] === lottoAutoNumbers[j]) find++;
+                if(lottoNums[i] == lottoAutoNumbers[j]) {
+                    console.log(lottoAutoNumbers[j]);
+                    find++;
+                }
             }
         }
         for(let j = 0; j < lottoAutoNumbers.length; j++){
-            if(lottoNums[lottoNums.length-1] === lottoAutoNumbers[j]) bnous++;
+            if(lottoNums[lottoNums.length-1] == lottoAutoNumbers[j]) {
+                bnous++;
+            }
         }
     }
     showResult(find, bnous);
@@ -100,12 +111,12 @@ function showResult(find, bnous){
     let lottoResultArea = document.querySelector('#lotto_result');
     lottoResultArea.style.display = 'flex';
     let list = "<ul>";
-    if(find === 3)  list += "<li><span>5등 당첨</span>입니다.</li>";
-    else if(find === 2 && bnous ===1) list += "<li><span>5등 당첨</span>입니다.</li>";
+    if(find == 3)  list += "<li><span>5등 당첨</span>입니다.</li>";
+    else if(find == 2 && bnous ==1) list += "<li><span>5등 당첨</span>입니다.</li>";
     else if(find == 4) list += "<li><span>4등 당첨</span>입니다.</li>";
-    else if(find === 3 && bnous ===1) list += "<li><span>4등 당첨</span>입니다.</li>";
+    else if(find == 3 && bnous ==1) list += "<li><span>4등 당첨</span>입니다.</li>";
     else if(find == 5) list = "<li><span>3등 당첨</span>입니다.</li>";
-    else if(find == 4 && bnous ===1) list += "<li><span>3등 당첨</span>입니다.</li>";
+    else if(find == 4 && bnous ==1) list += "<li><span>3등 당첨</span>입니다.</li>";
     else if(find == 6) list += "<li><span>1등 당첨</span>입니다.</li>";
     else if(find == 5 && bnous == 1) list += "<li><span>2등 당첨</span>입니다.</li>";
     else list += "<li><span>꽝</span>입니다.</li>";
