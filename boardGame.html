@@ -5,13 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>키보드 화살표 게임</title>
     <style>
-        *{margin : 0 auto; text-align: center; align-content: center; }
+        *{ box-sizing: border-box;  
+            margin: 0;
+            padding: 0; /* 패딩도 초기화 */
+        }
+        html, body{
+            height: 100%; /* 전체 높이 설정 */
+        }
         body{
             display: flex;
             justify-content: center; /* 수평 중앙 정렬 */
             align-items: center; /* 수직 중앙 정렬 */
-            height: 100vh; /* 전체 높이를 100%로 설정 */
-            margin: 0;
+        }
+        #wrapper{
+            text-align: center; /* 텍스트 중앙 정렬 */
         }
         .dark-background {
             background-color: rgba(0, 0, 0,0.5); /* 어두운 배경 */
@@ -42,17 +49,14 @@
             top:0px;
             left:0px;
             border-radius: 10px;
+            z-index: 2;
         }
         .grid-item{
-            box-sizing: border-box;
             position: relative;
-
             width: 50px;
             height: 50px;
             border: 1px solid #eee; /* 셀 테두리 */
-            display: flex;
-            justify-content: center; /* 수평 중앙 정렬 */
-            align-items: center; /* 수직 중앙 정렬 */
+            
         }
         .grid-item > img{
             width: 100%; /* 셀 너비에 맞춤 */
@@ -76,87 +80,97 @@
             transform: translate(-50%, -50%);
 
         }
+        #retry, #stop, #close{
+            margin: 5px;
+            padding:5px;
+        }
+        #close{
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <h1>키보드 화살표 게임</h1>
-    <div id = 'game-area'>
-        <div class = 'grid-item'><div id = 'box'></div></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item item1'><img src='images/stone.png' alt = '장애물' ></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'><img src='images/stone.png' alt = '장애물' ></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'><img src='images/stone.png' alt = '장애물' ></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item'></div>
-        <div class = 'grid-item' id = 'destination'></div>
+    <div id = 'wrapper'>
+        <h1>키보드 화살표 게임</h1>
+        <div id = 'game-area'>
+            <div class = 'grid-item'><div id = 'box'></div></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+    
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+    
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item item1'><img src='images/stone.png' alt = '장애물' ></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+    
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+    
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'><img src='images/stone.png' alt = '장애물' ></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+    
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+    
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'><img src='images/stone.png' alt = '장애물' ></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+    
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item'></div>
+            <div class = 'grid-item' id = 'destination'></div>
+        </div>
+        <div id = 'modal'>
+            <p id = 'result'></p>
+            <button type="button" id = 'retry'>다시하기</button>
+        </div>
     </div>
-    <div id = 'modal'>
-        <p id = 'result'></p>
-        <button type="button" id = 'retry'>다시하기</button>
-    </div>
+    
 
     <script>
         const box = document.getElementById('box');
@@ -167,7 +181,7 @@
         function direction(event){
             switch(event.key){
                 case 'ArrowUp' : 
-                    if(topPostion >= 0){
+                    if(topPostion > 0){
                         topPostion = topPostion - 50;
                         box.style.top = topPostion +'px';
                     }
@@ -181,13 +195,13 @@
                     break;
                  
                 case 'ArrowRight' : 
-                    if(leftPostion >= 0){
+                    if(leftPostion < 350){
                         leftPostion = leftPostion + 50;
                         box.style.left = leftPostion +'px';
                     }
                     break;
                 case 'ArrowLeft' : 
-                    if(leftPostion < 350){
+                    if(leftPostion >0 ){
                         leftPostion = leftPostion - 50 ;
                         box.style.left = leftPostion+'px';
                     }
@@ -208,11 +222,13 @@
                 if(leftPostion == 100 || leftPostion == 200) showModal();
             }
             else if(topPostion == 200){
-                if(leftPostion == 150 || leftPostion == 250)
-                showModal();
-            }else if(topPostion == 250 && leftPostion == 200){
-                showModal();
-            }
+                if(leftPostion == 150 || leftPostion == 250) showModal();
+            }else if(topPostion == 250 ){
+                if(leftPostion == 100 || leftPostion == 200) showModal();
+            }else if(topPostion == 300){
+                if(leftPostion == 50 || leftPostion == 150) showModal();
+            }else if(topPostion == 350 && leftPostion == 100) showModal();
+            else if(topPostion == 350 && leftPostion == 350) finish();
         }
        
         function showModal(){
@@ -223,7 +239,8 @@
             document.body.classList.remove('white-background');
             document.body.classList.add('dark-background');
         }
-        document.querySelector('#retry').addEventListener("click",closeModal);
+        const retry = document.querySelector('#retry');
+        retry.addEventListener("click",closeModal);
         function closeModal(){
             window.addEventListener('keydown', direction);
             modal.style.display = 'none';
@@ -233,6 +250,14 @@
             box.style.top = topPostion + 'px';
             box.style.left = leftPostion + 'px';
             document.body.classList.add('white-background');
+        }
+        function finish(){
+            window.removeEventListener('keydown', direction);
+            let modal = document.querySelector('#modal');
+            document.querySelector('#result').innerText = '게임을 클리어하셨습니다.';
+            modal.style.display = 'block';
+            document.body.classList.remove('white-background');
+            document.body.classList.add('dark-background');
         }
     </script>
 </body>
