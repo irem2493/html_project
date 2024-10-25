@@ -61,3 +61,17 @@ h3{
     flex-direction: column;
     width:50px;
 }
+
+.red{
+    background-image: url('/images/x.png');
+    background-size: 50px 50px;
+    border:2px solid red;
+}
+
+.gray{
+    text-align: center;
+    align-content: center;
+    font-weight: bold;
+    font-size : 32px;
+    color: #a3a3a3;
+}
