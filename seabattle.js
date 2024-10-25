@@ -19,58 +19,100 @@ $(document).ready(function() {
     }
 
     //1칸 짜리 함선 랜덤 위치 ----------------------------------------
-    let x, y, topPosition, leftPosition;
-    let idSet = new Set();
-    //랜덤 좌표가 들어갈 grid-item 아이디값
-    while(idSet.size < 4){
-        idSet.add(Math.floor((Math.random()*10) *10) + 1);
+    let idSet = new Set(); // 배의 위치값을 저장할 Set
+    let maxPosition = 100; // 최대 위치값 (1부터 100까지)
+
+    // 주어진 위치가 이미 사용 중인지 확인하는 함수
+    function isOccupied(position, surroundingSet) {
+        return surroundingSet.has(position) || 
+            surroundingSet.has(position - 10) || 
+            surroundingSet.has(position + 10) || 
+            (position % 10 !== 1 && surroundingSet.has(position - 1)) || 
+            (position % 10 !== 0 && surroundingSet.has(position + 1));
+    }
+    let surroundingSet= new Set(); // 배의 위치와 그 주변 좌표를 저장할 Set
+    console.log(surroundingSet);
+    // 배 위치를 추가하는 함수
+    function addShipPosition() {
+        let newPosition;
+
+        do {
+            newPosition = Math.floor(Math.random() * maxPosition) + 1; // 랜덤 위치 생성
+        } while (isOccupied(newPosition, surroundingSet));
+
+        // 새로운 위치 추가
+        idSet.add(newPosition);
+        
+        // 상하좌우 좌표를 surroundingSet에 추가
+        markSurroundingPositions(newPosition, surroundingSet);
+    }
+
+    // 상하좌우 좌표를 마크하는 함수
+    function markSurroundingPositions(position, surroundingSet) {
+        surroundingSet.add(position); // 현재 배의 위치 추가
+        if (position - 10 > 0) {
+            surroundingSet.add(position - 10); // 상
+        }
+        if (position + 10 <= maxPosition) {
+            surroundingSet.add(position + 10); // 하
+        }
+        if (position % 10 !== 1) {
+            surroundingSet.add(position - 1); // 좌
+        }
+        if (position % 10 !== 0) {
+            surroundingSet.add(position + 1); // 우
+        }
+    }
+
+    // 총 4개의 배 위치 추가
+    while (idSet.size < 4) {
+        addShipPosition();
     }
     //아이디 값에 해당되는 div 요소 배열에 저장
     const idArr = Array.from(idSet);
-    const gi_div = [];
-    for(let i = 0; i < idArr.length; i++){
-        const gi = $(`#g${idArr[i]}`);
-        gi_div.push(gi);
-    }
-    //랜덤 좌표
-    for(let i = 0; i < idArr.length; i++){
-        x = Math.floor(Math.random()*8) * 50;
-        y = Math.floor(Math.random()*8) * 50;
-        topPosition = x;
-        leftPosition = y;
-        gi_div[i].css({
-            top: topPosition + 'px',
-            left: leftPosition + 'px',
-        });
-        gi_div[i].addClass('red');
+    const gi_div = idArr.map(id => $(`#g${id}`)); // 배열 생성
 
-        //함선 상하좌우로 다른 배가 위치되지 못하도록 만든다.
-        if(Math.floor(`${idArr[i]}`)-10 > 0){
-            let g_top =  Math.floor(`${idArr[i]}`)-10;
-            const gi_top = $(`#g${g_top}`);
-            gi_top.addClass('gray');
-            gi_top.text('·');
+    // 랜덤 좌표
+        gi_div.forEach((gi, index) => {
+        const x = Math.floor(Math.random() * 8) * 50;
+        const y = Math.floor(Math.random() * 8) * 50;
+
+        gi.css({ top: `${x}px`, left: `${y}px` });
+        gi.addClass('red');
+
+        // 주변 grid-item 상하좌우에 다른 배가 위치하지 못하도록 처리
+        const id = idArr[index];
+
+        // 상
+        if (id - 10 > 0) {
+            const gi_top = $(`#g${id - 10}`);
+            if (!gi_top.hasClass('red')) { // 이미 x가 없는 경우에만 · 표시
+                gi_top.addClass('gray').text('·'); // · 표시
+            }
         }
 
-        if(Math.floor(`${idArr[i]}`)-1 > 0){
-            let g_left =  Math.floor(`${idArr[i]}`)-1;
-            const gi_left = $(`#g${g_left}`);
-            gi_left.addClass('gray');
-            gi_left.text('·');
+        // 좌
+        if (id % 10 !== 1) {
+            const gi_left = $(`#g${id - 1}`);
+            if (!gi_left.hasClass('red')) { // 이미 x가 없는 경우에만 · 표시
+                gi_left.addClass('gray').text('·'); // · 표시
+            }
         }
 
-        if(Math.floor(`${idArr[i]}`)+1 % 10 != 0){
-            let g_right =  Math.floor(`${idArr[i]}`)+1;
-            const gi_right = $(`#g${g_right}`);
-            gi_right.addClass('gray');
-            gi_right.text('·');
+        // 우
+        if (id % 10 !== 0) {
+            const gi_right = $(`#g${id + 1}`);
+            if (!gi_right.hasClass('red')) { // 이미 x가 없는 경우에만 · 표시
+                gi_right.addClass('gray').text('·'); // · 표시
+            }
         }
 
-        if(Math.floor(`${idArr[i]}`)+10 < 101){
-            let g_bottom =  Math.floor(`${idArr[i]}`)+10;
-            const gi_bottom = $(`#g${g_bottom}`);
-            gi_bottom.addClass('gray');
-            gi_bottom.text('·');
+        // 하
+        if (id + 10 <= 100) {
+            const gi_bottom = $(`#g${id + 10}`);
+            if (!gi_bottom.hasClass('red')) { // 이미 x가 없는 경우에만 · 표시
+                gi_bottom.addClass('gray').text('·'); // · 표시
+            }
         }
-    }
+    });
 });
