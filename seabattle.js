@@ -69,15 +69,16 @@ $(document).ready(function() {
         addShipPosition();
     }
 
+    let attempts = 0; // 시도 횟수 초기화
+    const maxAttempts = 50; // 최대 시도 횟수
     //2칸 짜리 함선 랜덤 위치 ----------------------------------------
     // 배 위치를 추가하는 함수
     function addShipPosition2() {
+        attempts = 0; // 시도 횟수 초기화
         let newPosition;
-        let attempts2 = 0; // 시도 횟수 초기화
-        const maxAttempts2 = 50; // 최대 시도 횟수
         do {
             newPosition = Math.floor(Math.random() * maxPosition) + 1; // 랜덤 위치 생성
-            if (++attempts2 >= maxAttempts2) {
+            if (++attempts >= maxAttempts) {
                 console.error("Failed to find a valid position for double ship.");
                 return false; // 최대 시도 초과 시 함수종료
             }
@@ -87,10 +88,10 @@ $(document).ready(function() {
         idSet.add(newPosition);
     
         let direction;
-        attempts2 = 0;
+        attempts = 0;
         do {
             direction = Math.floor(Math.random() * 4); // 0: 상, 1: 하, 2: 좌, 3: 우
-            if (++attempts2 >= maxAttempts2) {
+            if (++attempts >= maxAttempts) {
                 console.error("Failed to find a valid position for double ship.");
                 return false; // 최대 시도 초과 시 함수종료
             }
@@ -150,47 +151,195 @@ $(document).ready(function() {
         if (addShipPosition2()) {
             shipCount++; // 성공적으로 추가된 경우 카운트 증가
         } else {
-            console.log("Retrying to add ship...");
+            console.log("Retrying to add ship 2...");
         }
     }
 
-    //아이디 값에 해당되는 div 요소 배열에 저장
-    const idArr = Array.from(idSet);
-    const gi_div = idArr.map(id => $(`#g${id}`)); // 배열 생성
+   
 
-    // 랜덤 좌표
-    gi_div.forEach((gi, index) => {
-        const x = Math.floor(Math.random() * 8) * 50;
-        const y = Math.floor(Math.random() * 8) * 50;
-
-        gi.css({ top: `${x}px`, left: `${y}px` });
-        gi.addClass('red');
-
-        // 주변 grid-item 상하좌우에 다른 배가 위치하지 못하도록 처리
-        const id = idArr[index];
-        markSurrounding(id);
-    });
-
-    function markSurrounding(id) {
-        // 상
-        if (id - 10 > 0) markPosition(id - 10);
-
-        // 좌
-        if (id % 10 !== 1) markPosition(id - 1);
-
-        // 우
-        if (id % 10 !== 0) markPosition(id + 1);
-
-        // 하
-        if (id + 10 <= 100) markPosition(id + 10);
-    }
-
-    function markPosition(positionId) {
-        const gi_position = $(`#g${positionId}`);
+    //3칸 짜리 함선 랜덤 위치 ---------------------------------------- : 현재 서라운딩은 추가 안함(현재 3칸 함선 2개여야 하는데 1개임)
+    function addShipPosition3(){
+        attempts = 0;
+        let newPosition;
+        do {
+            newPosition = Math.floor(Math.random() * maxPosition) + 1; // 랜덤 위치 생성
+            if (++attempts >= maxAttempts) {
+                console.error("Failed to find a valid position for double ship.");
+                return false; // 최대 시도 초과 시 함수종료
+            }
+        } while (isOccupied(newPosition, surroundingSet));
     
-        // 함선이 있는 위치인지 확인
-        if (!idArr.includes(positionId) && !gi_position.hasClass('gray')) {
-            gi_position.addClass('gray').text('·'); // · 표시
+        let direction = Math.floor(Math.random() * 6); // 0: 상, 1: 가로 중, 2: 하, 3: 좌, 4: 세로 중, 5: 우
+        console.log(direction);
+        let secondPosition, thirdPosition;
+        let cnt = 0;
+        //상
+        if(direction === 0){
+            cnt = 0;
+            if(newPosition-10 > 0 && !idSet.has(newPosition-10) && !surroundingSet.has(newPosition-10)){
+                secondPosition = newPosition-10;
+                cnt++;
+            }
+            if(newPosition-20 > 0 && !idSet.has(newPosition-20) && !surroundingSet.has(newPosition-20)){
+                thirdPosition = newPosition-20;
+                cnt++;
+            }
+            if(cnt > 1) {
+                console.log(cnt + 'cnt-------------------'+newPosition+'newPosition' + '상');
+                // 새로운 위치 추가
+                idSet.add(newPosition);
+                idSet.add(secondPosition);
+                idSet.add(thirdPosition);
+                return true;
+            }
+        }//1: 가로 중
+        else if(direction === 1){
+            cnt = 0;
+            if(newPosition-10 > 0 && !idSet.has(newPosition-10) && !surroundingSet.has(newPosition-10)){
+                secondPosition = newPosition-10;
+                cnt++;
+            }
+            if(newPosition+10 < 100 && !idSet.has(newPosition+10) && !surroundingSet.has(newPosition+10)){
+                thirdPosition = newPosition+10;
+                cnt++;
+            }
+            if(cnt > 1) {
+                console.log(cnt + 'cnt-------------------'+newPosition+'newPosition' + '가로 중');
+                // 새로운 위치 추가
+                idSet.add(newPosition);
+                idSet.add(secondPosition);
+                idSet.add(thirdPosition);
+                return true;
+            }
+        }//2: 하
+        else if(direction === 2){
+            cnt = 0;
+            if(newPosition+10 < 100 && !idSet.has(newPosition+10) && !surroundingSet.has(newPosition+10)){
+                secondPosition = newPosition+10;
+                cnt++;
+            }
+            if(newPosition+20 < 100 && !idSet.has(newPosition+20) && !surroundingSet.has(newPosition+20)){
+                thirdPosition = newPosition+20;
+                cnt++;
+            }
+            if(cnt > 1) {
+                console.log(cnt + 'cnt-------------------'+newPosition+'newPosition' + '하');
+                // 새로운 위치 추가
+                idSet.add(newPosition);
+                idSet.add(secondPosition);
+                idSet.add(thirdPosition);
+                return true;
+            }
+        }//3: 좌
+        else if(direction === 3){
+            cnt = 0;
+            if(newPosition % 10 !== 1 && (newPosition-10)%10 !== 1){
+                if(newPosition-1 > 0 && !idSet.has(newPosition-1) && !surroundingSet.has(newPosition-1)){
+                    secondPosition = newPosition-1;
+                    cnt++;
+                }
+                if(newPosition-2 > 0 && !idSet.has(newPosition-2) && !surroundingSet.has(newPosition-2)){
+                    thirdPosition = newPosition-2;
+                    cnt++;
+                }
+                if(cnt > 1) {
+                    console.log(cnt + 'cnt-------------------'+newPosition+'newPosition' + '좌');
+                    // 새로운 위치 추가
+                    idSet.add(newPosition);
+                    idSet.add(secondPosition);
+                    idSet.add(thirdPosition);
+                    return true;
+                }
+            }
+        }//4: 세로 중
+        else if(direction === 4){
+            cnt = 0;
+            if(newPosition % 10 !== 1 && newPosition % 10 !== 0){
+                if(newPosition-1 > 0 && !idSet.has(newPosition-1) && !surroundingSet.has(newPosition-1)){
+                    secondPosition = newPosition-1;
+                    cnt++;
+                }
+                if(newPosition+1 < 100 && !idSet.has(newPosition+1) && !surroundingSet.has(newPosition+1)){
+                    thirdPosition = newPosition+1;
+                    cnt++;
+                }
+                if(cnt > 1) {
+                    console.log(cnt + 'cnt-------------------'+newPosition+'newPosition'+'세로 중');
+                    // 새로운 위치 추가
+                    idSet.add(newPosition);
+                    idSet.add(secondPosition);
+                    idSet.add(thirdPosition);
+                    return true;
+                }
+            }
+        }//5: 우
+        else if(direction === 5){
+            cnt = 0;
+            if(newPosition % 10 !== 0 && (newPosition+1) % 10 !== 0){
+                
+                if(newPosition+1 < 100 && !idSet.has(newPosition+1) && !surroundingSet.has(newPosition+1)){
+                    secondPosition = newPosition+1;
+                    cnt++;
+                }
+                if(newPosition+2 < 100 && !idSet.has(newPosition+2) && !surroundingSet.has(newPosition+2)){
+                    thirdPosition = newPosition+2;
+                    cnt++;
+                }
+                if(cnt > 1) {
+                    console.log(cnt + 'cnt-------------------'+newPosition+'newPosition'+'우');
+                    // 새로운 위치 추가
+                    idSet.add(newPosition);
+                    idSet.add(secondPosition);
+                    idSet.add(thirdPosition);
+                    return true;
+                }
+            }
         }
+        
+        return false;
     }
+    shipCount = 0;
+    if(addShipPosition3())shipCount++;
+        
+    
+
+     //아이디 값에 해당되는 div 요소 배열에 저장
+     const idArr = Array.from(idSet);
+     const gi_div = idArr.map(id => $(`#g${id}`)); // 배열 생성
+ 
+     // 랜덤 좌표
+     gi_div.forEach((gi, index) => {
+         const x = Math.floor(Math.random() * 8) * 50;
+         const y = Math.floor(Math.random() * 8) * 50;
+ 
+         gi.css({ top: `${x}px`, left: `${y}px` });
+         gi.addClass('red');
+ 
+         // 주변 grid-item 상하좌우에 다른 배가 위치하지 못하도록 처리
+         const id = idArr[index];
+         markSurrounding(id);
+     });
+ 
+     function markSurrounding(id) {
+         // 상
+         if (id - 10 > 0) markPosition(id - 10);
+ 
+         // 좌
+         if (id % 10 !== 1) markPosition(id - 1);
+ 
+         // 우
+         if (id % 10 !== 0) markPosition(id + 1);
+ 
+         // 하
+         if (id + 10 <= 100) markPosition(id + 10);
+     }
+ 
+     function markPosition(positionId) {
+         const gi_position = $(`#g${positionId}`);
+     
+         // 함선이 있는 위치인지 확인
+         if (!idArr.includes(positionId) && !gi_position.hasClass('gray')) {
+             gi_position.addClass('gray').text('·'); // · 표시
+         }
+     }
 });
