@@ -73,7 +73,7 @@ $(document).ready(function() {
     }
 
     // 최대 반복 횟수를 설정
-    let shipCount = 0; 
+   let shipCount = 0; 
     // 총 4개의 배 위치 추가
     while (shipCount < 4) {
         if(addShipPosition()) shipCount++;
@@ -82,68 +82,67 @@ $(document).ready(function() {
 
     
     //2칸 짜리 함선 랜덤 위치 ----------------------------------------
-    // 배 위치를 추가하는 함수
     function addShipPosition2() {
         let attempts = 0; // 시도 횟수 초기화
         const maxAttempts = 50; // 최대 시도 횟수
         let newPosition;
+    
         do {
             newPosition = Math.floor(Math.random() * maxPosition) + 1; // 랜덤 위치 생성
             if (++attempts >= maxAttempts) {
                 console.error("Failed to find a valid position for double ship.");
-                return false; // 최대 시도 초과 시 함수종료
+                return false; // 최대 시도 초과 시 함수 종료
             }
         } while (isOccupied(newPosition, surroundingSet));
     
-        // 새로운 위치 추가
-        idSet.add(newPosition);
-    
-        let direction;
+        // 방향 결정 및 두 번째 좌표 추가
         attempts = 0;
+        let direction;
+        let secondPosition;
+    
         do {
             direction = Math.floor(Math.random() * 4); // 0: 상, 1: 하, 2: 좌, 3: 우
             if (++attempts >= maxAttempts) {
-                console.error("Failed to find a valid position for double ship.");
-                return false; // 최대 시도 초과 시 함수종료
+                console.error("Failed to find a valid direction for double ship.");
+                return false; // 최대 시도 초과 시 함수 종료
             }
-        } while (!canPlace(newPosition, direction));
     
-         // 2번째 좌표 추가
-        let secondPosition;
-        if (direction === 0) { // 상
-            if( newPosition - 10 > 0) secondPosition = newPosition - 10;
-        } else if (direction === 1) { // 하
-            if(newPosition + 10 <= 100) secondPosition = newPosition + 10;
-        } else if (direction === 2) { // 좌
-            if(newPosition - 1 > 0)secondPosition = newPosition - 1;
-        } else if (direction === 3) { // 우
-            if(newPosition + 1 <= 100)secondPosition = newPosition + 1;
-        }
-
-        // idSet에 두 번째 좌표 추가
+            switch (direction) {
+                case 0: // 상
+                    secondPosition = newPosition - 10;
+                    break;
+                case 1: // 하
+                    secondPosition = newPosition + 10;
+                    break;
+                case 2: // 좌
+                    secondPosition = newPosition - 1;
+                    break;
+                case 3: // 우
+                    secondPosition = newPosition + 1;
+                    break;
+            }
+            
+        } while (
+            secondPosition <= 0 ||
+            secondPosition > maxPosition || 
+            isOccupied(secondPosition, surroundingSet) ||
+            (direction === 0 && newPosition <= 20) || // 상 방향 유효성
+            (direction === 1 && newPosition > 80) || // 하 방향 유효성
+            (direction === 2 && newPosition % 10 === 1) || // 좌 방향 유효성
+            (direction === 3 && newPosition % 10 === 0)   // 우 방향 유효성
+        );
+    
+        // 위치 추가
+        idSet.add(newPosition);
         idSet.add(secondPosition);
-
+    
         // 주변 좌표 추가
         addSurroundingPositions(newPosition);
         addSurroundingPositions(secondPosition);
-
+    
         return true;
     }
     
-    function canPlace(position, direction) {
-        switch (direction) {
-            case 0: // 상
-                return position > 10 && !isOccupied(position - 10, surroundingSet);
-            case 1: // 하
-                return position <= maxPosition - 10 && !isOccupied(position + 10, surroundingSet);
-            case 2: // 좌
-                return position % 10 !== 1 && !isOccupied(position - 1, surroundingSet);
-            case 3: // 우
-                return position % 10 !== 0 && !isOccupied(position + 1, surroundingSet);
-            default:
-                return false;
-        }
-    }
     
     function addSurroundingPositions(position) {
         // 상하좌우 및 대각선의 주변 좌표 추가
@@ -157,7 +156,9 @@ $(document).ready(function() {
     }
     
     let shipCount2 = 0; 
-    while (shipCount2 < 3) { // 2칸짜리 함선 3개 추가
+    let attempts = 0; // 시도 횟수 초기화
+    const maxAttempts = 50; // 최대 시도 횟수
+    while (shipCount2 < 3 && ++attempts < maxAttempts ) { // 2칸짜리 함선 3개 추가
         if (addShipPosition2())  shipCount2++; // 성공적으로 추가된 경우 카운트 증가
          else console.log("Retrying to add ship 2...");
         
@@ -198,7 +199,7 @@ $(document).ready(function() {
         // 각 방향에 따라 위치 계산
         switch (direction) {
             case 0: // 상
-                if(newPosition - 10 > 0 && newPosition - 20 > 0){
+                if((newPosition - 10) > 0 && (newPosition - 20) > 0){
                     secondPosition = newPosition - 10;
                     thirdPosition = newPosition - 20;
                     console.log(newPosition+'newPosition' + '상');
@@ -206,7 +207,7 @@ $(document).ready(function() {
                 }
                 break;
             case 1: // 가로 중
-                if(newPosition - 10 > 0 && newPosition+10 <= 100){
+                if((newPosition - 10) > 0 && (newPosition+10) <= 100){
                     secondPosition = newPosition - 10;
                     thirdPosition = newPosition + 10;
                     console.log(newPosition+'newPosition' + '가로 중');
@@ -214,7 +215,7 @@ $(document).ready(function() {
                 }
                 break;
             case 2: // 하
-                if(newPosition + 10 < 100 && newPosition + 20 <= 100){
+                if((newPosition + 10) < 100 && (newPosition + 20) <= 100){
                     secondPosition = newPosition + 10;
                     thirdPosition = newPosition + 20;
                     console.log(newPosition+'newPosition' + '하');
@@ -222,7 +223,7 @@ $(document).ready(function() {
                 }
                 break;
             case 3: // 좌
-                if (newPosition % 10 !== 1 && newPosition - 1 > 0 && newPosition - 2 > 0) { // 첫 번째 열이 아닌 경우
+                if (newPosition % 10 !== 1 && (newPosition - 1) > 0 && (newPosition - 2) > 0) { // 첫 번째 열이 아닌 경우
                     secondPosition = newPosition - 1;
                     thirdPosition = newPosition - 2;
                     console.log(newPosition+'newPosition' + '좌');
@@ -230,7 +231,7 @@ $(document).ready(function() {
                 }
                 break;
             case 4: // 세로 중
-                if (newPosition % 10 !== 1 && newPosition % 10 !== 0 && newPosition - 1 > 0 && newPosition + 1 <= 100) { // 첫 번째와 마지막 열이 아닌 경우
+                if (newPosition % 10 !== 1 && newPosition % 10 !== 0 && (newPosition - 1) > 0 && (newPosition + 1) <= 100) { // 첫 번째와 마지막 열이 아닌 경우
                     secondPosition = newPosition - 1;
                     thirdPosition = newPosition + 1;
                     console.log(newPosition+'newPosition' + '세로 중');
@@ -238,7 +239,7 @@ $(document).ready(function() {
                 }
                 break;
             case 5: // 우
-                if (newPosition % 10 !== 0 && newPosition + 1 < 100 && newPosition + 2 <= 100) { // 마지막 열이 아닌 경우
+                if (newPosition % 10 !== 0 && (newPosition + 1) < 100 && (newPosition + 2) <= 100) { // 마지막 열이 아닌 경우
                     secondPosition = newPosition + 1;
                     thirdPosition = newPosition + 2;
                     console.log(newPosition+'newPosition' + '우');
@@ -250,7 +251,7 @@ $(document).ready(function() {
         return valid;
     }
     let shipCount3 = 0;
-    while(shipCount3 < 2){
+    while(shipCount3 < 2 && ++attempts < maxAttempts){
         if(addShipPosition3()) shipCount3++;
         else console.log("Retrying to add ship 3...");
         console.log(shipCount3+"--------------shilpCount3");
