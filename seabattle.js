@@ -256,6 +256,10 @@ $(document).ready(function() {
         else console.log("Retrying to add ship 3...");
         console.log(shipCount3+"--------------shilpCount3");
     }
+
+    //3칸 짜리 함선 랜덤 위치 ---------------------------------------- 
+    function addShipPosition4() {
+    }
         
      //아이디 값에 해당되는 div 요소 배열에 저장
      const idArr = Array.from(idSet);
