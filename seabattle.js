@@ -257,8 +257,9 @@ $(document).ready(function() {
         console.log(shipCount3+"--------------shilpCount3");
     }
 
-    //3칸 짜리 함선 랜덤 위치 ---------------------------------------- 
+    //4칸 짜리 함선 랜덤 위치 ---------------------------------------- 
     function addShipPosition4() {
+
     }
         
      //아이디 값에 해당되는 div 요소 배열에 저장
@@ -300,4 +301,7 @@ $(document).ready(function() {
              gi_position.addClass('gray').text('·'); // · 표시
          }
      }
+
+     let totol_ship_count = shipCount + shipCount2 + shipCount3; 
+     document.querySelector('span').innerText = totol_ship_count;
 });

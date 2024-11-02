@@ -14,6 +14,10 @@ body{
 h3{
     margin-top: 10px;
 }
+span{
+    color:red;
+    font-weight: bold;
+}
 .wrapper{
     text-align: center;
 }
