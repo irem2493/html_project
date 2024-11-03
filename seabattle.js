@@ -259,7 +259,18 @@ $(document).ready(function() {
 
     //4칸 짜리 함선 랜덤 위치 ---------------------------------------- 
     function addShipPosition4() {
-
+        let attempts = 0;
+        const maxAttempts = 50; // 최대 시도 횟수
+        let newPosition;
+        do {
+            newPosition = Math.floor(Math.random() * maxPosition) + 1; // 랜덤 위치 생성
+            if (++attempts >= maxAttempts) {
+                console.error("Failed to find a valid position for the three ship.");
+                return false; // 최대 시도 초과 시 함수 종료
+            }
+        } while (isOccupied(newPosition, idSet) || isOccupied(newPosition, surroundingSet));
+    
+        const direction = Math.floor(Math.random() * 2); // 방향 랜덤 결정
     }
         
      //아이디 값에 해당되는 div 요소 배열에 저장
