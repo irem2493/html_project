@@ -271,6 +271,57 @@ $(document).ready(function() {
         } while (isOccupied(newPosition, idSet) || isOccupied(newPosition, surroundingSet));
     
         const direction = Math.floor(Math.random() * 2); // 방향 랜덤 결정
+        let secondPosition, thirdPosition, fourthPosition;
+        let valid = false;
+    
+        const checkAndAddPositions = (pos1, pos2, pos3, pos4) => {
+            if (!isOccupied(pos1, idSet) && !isOccupied(pos1, surroundingSet) &&
+                !isOccupied(pos2, idSet) && !isOccupied(pos2, surroundingSet) &&
+                !isOccupied(pos3, idSet) && !isOccupied(pos3, surroundingSet) &&
+                !isOccupied(pos4, idSet) && !isOccupied(pos4, surroundingSet)) {
+                
+                idSet.add(pos1);
+                idSet.add(pos2);
+                idSet.add(pos3);
+                idSet.add(pos4);
+                addSurroundingPositions(pos1);
+                addSurroundingPositions(pos2);
+                addSurroundingPositions(pos3);
+                addSurroundingPositions(pos4);
+                valid = true;
+            }
+        };
+        console.log(direction);
+        switch (direction) {
+            case 0: //세로
+                if(newPosition % 10 !== 1 && newPosition % 10 !== 0 && 
+                    newPosition+10 < 100 && newPosition+20 < 100 && newPosition+30 <= 100){
+                        secondPosition=newPosition+10;
+                        thirdPosition=newPosition+20;
+                        fourthPosition=newPosition+30;
+
+                        checkAndAddPositions(newPosition,secondPosition, thirdPosition,fourthPosition);
+                    }
+            break;
+
+            case 1:
+                if(newPosition % 10 !== 1 && newPosition % 10 !== 0 && 
+                    newPosition+1 < 100 && newPosition+2 < 100 && newPosition+3 <= 100){
+                        secondPosition=newPosition+1;
+                        thirdPosition=newPosition+2;
+                        fourthPosition=newPosition+3;
+                        checkAndAddPositions(newPosition,secondPosition, thirdPosition,fourthPosition);
+                    }
+                break;//가로
+        }
+        return valid;
+    }
+
+    let shipCount4 = 0;
+    while(shipCount4 < 1 && ++attempts < maxAttempts){
+        if(addShipPosition4()) shipCount4++;
+        else console.log("Retrying to add ship 4...");
+        console.log(shipCount4+"--------------shilpCount4");
     }
         
      //아이디 값에 해당되는 div 요소 배열에 저장
@@ -283,7 +334,10 @@ $(document).ready(function() {
          const y = Math.floor(Math.random() * 8) * 50;
  
          gi.css({ top: `${x}px`, left: `${y}px` });
-         gi.addClass('red');
+         gi.on('click',()=>{
+           gi.addClass('red');
+
+         })
  
          // 주변 grid-item 상하좌우에 다른 배가 위치하지 못하도록 처리
          const id = idArr[index];
@@ -310,6 +364,7 @@ $(document).ready(function() {
          // 함선이 있는 위치인지 확인
          if (!idArr.includes(positionId) && !gi_position.hasClass('gray')) {
              gi_position.addClass('gray').text('·'); // · 표시
+            
          }
      }
 
